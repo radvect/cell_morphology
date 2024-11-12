@@ -4,43 +4,44 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-def plot_align(number_of_cell,k_sampling_points):
-    border = np.load(f'cells/cell_{number_of_cell}/frame_{1}/outline.npy')
-    cell_interpolation_ref= interpolate(border, k_sampling_points)
+def plot_align(number_of_cell,ref_frame, frame_to_align, k_sampling_points):
+
+    border_ref = np.load(f'cells/cell_{number_of_cell}/frame_{ref_frame}/outline.npy')
+    cell_interpolation_ref= interpolate(border_ref, k_sampling_points)
     cell_preprocess_ref = preprocess(cell_interpolation_ref)
     border_ref = cell_preprocess_ref
 
-    border_cell = np.load(f'cells/cell_{number_of_cell}/frame_{7}/outline.npy')
+    border_cell = np.load(f'cells/cell_{number_of_cell}/frame_{frame_to_align}/outline.npy')
     cell_interpolation= interpolate(border_cell, k_sampling_points)
     cell_preprocess = preprocess(cell_interpolation)
-    border = cell_preprocess
+    border_cell = cell_preprocess
  
-    border_align = exhaustive_align(border, border_ref)
+    border_align = exhaustive_align(border_cell, border_ref)
+
+
 
     fig = plt.figure(figsize=(15, 5))
 
     fig.add_subplot(131)
     plt.plot(border_ref[:, 0], border_ref[:, 1])
+    plt.plot(border_ref[0, 0], border_ref[0, 1], "ro")
     plt.axis("equal")
     plt.title(f"Reference")
-    plt.axis("off")
-
+    
     fig.add_subplot(132)
     plt.plot(border_cell[:, 0], border_cell[:, 1])
+    plt.plot(border_cell[0, 0], border_cell[0, 1], "ro")
     plt.axis("equal")
     plt.title(f"Initial curve")
-    plt.axis("off")
-
-
-
+    
     fig.add_subplot(133)
     plt.plot(border_align[:, 0], border_align[:, 1])
-
+    plt.plot(border_align[0, 0], border_align[0, 1], "ro")
     plt.axis("equal")
     plt.title(f"Aligned curve")
-    plt.axis("off")
-    #plt.show()
+    
+    plt.show()
     plt.savefig("pic/alignment.png")
 
 
-plot_align(1,1000)
+plot_align(1,1,7, 1000)
