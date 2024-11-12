@@ -20,3 +20,21 @@ def interpolate(curve, nb_points):
         )
         pos += incr
     return interpolation
+
+def preprocess(curve, tol=1e-10):
+    """Preprocess curve to ensure that there are no consecutive duplicate points.
+
+    Returns
+    -------
+    curve : discrete curve
+    """
+
+    dist = curve[1:] - curve[:-1]
+    dist_norm = np.sqrt(np.sum(np.square(dist), axis=1))
+
+    if np.any( dist_norm < tol ):
+        for i in range(len(curve)-1):
+            if np.sqrt(np.sum(np.square(curve[i+1] - curve[i]), axis=0)) < tol:
+                curve[i+1] = (curve[i] + curve[i+2]) / 2
+
+    return curve
