@@ -41,13 +41,6 @@ def test_geodesic_func_elastic(cell_number,k_sampling_points,cell_frame_start=No
 
     cell_start_at_origin = CURVES_SPACE_ELASTIC.projection(cell_start_at_origin)
     cell_end_at_origin = CURVES_SPACE_ELASTIC.projection(cell_end_at_origin)
-    #plt.figure(figsize=(12, 12))
-    #for i in range(1, n_times - 1):
-    #    plt.plot(geod_points[i, :, 0], geod_points[i, :, 1], "o-", color="lightgrey")
-    #plt.plot(cell_start_at_origin[:, 0], cell_start_at_origin[:, 1], "o-b", label="Start Cell")
-    #plt.plot(cell_end_at_origin[:, 0], cell_end_at_origin[:, 1], "o-r", label="End Cell")
-    #plt.show()
-
 
     geodesic_func = CURVES_SPACE_ELASTIC.metric.geodesic(
         initial_point=cell_start_at_origin, end_point=cell_end_at_origin
