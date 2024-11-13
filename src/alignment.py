@@ -1,7 +1,6 @@
 import numpy as np
 from geomstats.geometry.pre_shape import PreShapeSpace
 import matplotlib.pyplot as plt
-
 import geomstats.backend as gs
 import src.projection as proj
 
@@ -13,9 +12,9 @@ def exhaustive_align(curve, base_curve):
 
     PRESHAPE_SPACE.equip_with_group_action("rotations")
     PRESHAPE_SPACE.equip_with_quotient()
-    curve_projected  = proj.project_on_kendell_space(curve,PRESHAPE_SPACE)
+    #curve_projected  = proj.project_on_kendell_space(curve,PRESHAPE_SPACE)
 
-
+    curve_projected = curve
 
     nb_sampling = len(curve_projected)
     distances = gs.zeros(nb_sampling)
