@@ -3,26 +3,25 @@ from geomstats.geometry.pre_shape import PreShapeSpace
 import matplotlib.pyplot as plt
 
 import geomstats.backend as gs
-
+import src.projection as proj
 
 
 def exhaustive_align(curve, base_curve):
 
     AMBIENT_DIM = 2
-    k_sampling_points = 1000
-    PRESHAPE_SPACE = PreShapeSpace(ambient_dim=AMBIENT_DIM, k_landmarks=k_sampling_points)
+    PRESHAPE_SPACE = PreShapeSpace(ambient_dim=AMBIENT_DIM, k_landmarks=len(curve))
 
     PRESHAPE_SPACE.equip_with_group_action("rotations")
     PRESHAPE_SPACE.equip_with_quotient()
-    curve = PRESHAPE_SPACE.projection(curve)
+    curve_projected  = proj.project_on_kendell_space(curve,PRESHAPE_SPACE)
 
 
 
-    nb_sampling = len(curve)
+    nb_sampling = len(curve_projected)
     distances = gs.zeros(nb_sampling)
     base_curve = gs.array(base_curve)
     for shift in range(nb_sampling):
-        reparametrized = [curve[(i + shift) % nb_sampling] for i in range(nb_sampling)]
+        reparametrized = [curve_projected[(i + shift) % nb_sampling] for i in range(nb_sampling)]
         aligned = PRESHAPE_SPACE.fiber_bundle.align(
             point=gs.array(reparametrized), base_point=base_curve
         )
@@ -32,7 +31,7 @@ def exhaustive_align(curve, base_curve):
     shift_min = gs.argmin(distances)
 
     reparametrized_min = [
-        curve[(i + shift_min) % nb_sampling] for i in range(nb_sampling)
+        curve_projected[(i + shift_min) % nb_sampling] for i in range(nb_sampling)
     ]
     aligned_curve = PRESHAPE_SPACE.fiber_bundle.align(
         point=gs.array(reparametrized_min), base_point=base_curve

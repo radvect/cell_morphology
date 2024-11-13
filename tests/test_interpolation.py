@@ -1,7 +1,7 @@
 from src.interpolation import interpolate, preprocess
 import numpy as np
 import matplotlib.pyplot as plt
-
+import projection as proj
 
 def plot_interpolate(number_of_cell, number_of_frame,k_sampling_points):
     border = np.load(f'cells/cell_{number_of_cell}/frame_{number_of_frame}/outline.npy')
