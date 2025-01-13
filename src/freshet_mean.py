@@ -4,14 +4,14 @@ import os
 import numpy as np
 from src.interpolation import interpolate, preprocess
 from src.alignment import exhaustive_align
-from src.projection import project_on_kendell_space
+from src.projection import project_on_kendall_space
 import matplotlib.pyplot as plt
 import geomstats.backend as gs
 
 BASE_LINE = np.load(f'cells/cell_1/frame_1/outline.npy')
 BASE_LINE= interpolate(BASE_LINE,1000)
 BASE_LINE = preprocess(BASE_LINE)
-BASE_LINE= project_on_kendell_space(BASE_LINE)
+BASE_LINE= project_on_kendall_space(BASE_LINE)
 
 cell_shapes_list = []
 for cell_i in range(1,4):
@@ -21,7 +21,7 @@ for cell_i in range(1,4):
         cell_interpolation= interpolate(border_cell,1000)
         cell_preprocess = preprocess(cell_interpolation)
         border_cell = cell_preprocess
-        border_cell = project_on_kendell_space(border_cell)
+        border_cell = project_on_kendall_space(border_cell)
         
         cell_shapes_list.append(exhaustive_align(border_cell,BASE_LINE))
     print(cell_i)
